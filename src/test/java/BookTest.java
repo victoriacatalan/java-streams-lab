@@ -1,6 +1,7 @@
 
 import entities.Book;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,28 +11,70 @@ import java.util.stream.Collectors;
 
 public class BookTest {
 
+    private List<Book> library;
+
+
+    @BeforeEach
+    void SetUp() {
+        library = BookFixture.generateLibrary();
+    }
+
     @Test
     void Should_ReturnUniqueTags() {
-        List<Book> library = BookFixture.generateLibrary();
-        List<String> expected = new ArrayList<>(Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing"));
-
-        List<String> result = new ArrayList<>();
+        List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
+        List<String> actual = new ArrayList<>();
         for(Book book : library) {
             for (String tag : book.getTags()) {
-                if (!result.contains(tag)) {
-                    result.add(tag);
+                if (!actual.contains(tag)) {
+                    actual.add(tag);
                 }
             }
         }
 
-        List<String> result2 = library.stream()
-                .flatMap(book -> book.getTags().stream())
-                .distinct()
-                .collect(Collectors.toList());
-
-        Assertions.assertEquals(expected, result2);
+        Assertions.assertEquals(expected, actual);
     }
 
-    void
+    @Test
+    void Should_ReturnPriceOfAllFantasy() {
+        int expected = 248;
+        int actual = 1;
 
+        //TODO: Repleace actual with stream
+
+        Assertions.assertEquals(expected, actual);
+
+    }
+
+
+    @Test
+    void Should_ReturnAllBooksByTolkien() {
+        List<Book> expected = Arrays.asList(BookFixture.getSilmarillon(), BookFixture.getLotr());
+        int expectedPrice = 246;
+
+        List<Book> actual = null;
+        int actualPrice = 1;
+
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expectedPrice, actualPrice);
+    }
+
+
+    @Test
+    void Should_ReturnTwoMostExpensiveBooks() {
+        List<Book> expected = List.of(BookFixture.getOCP(), BookFixture.getInk());
+        int expectedPrice = 667;
+
+        List<Book> actual = null;
+        int actualPrice = 1;
+
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expectedPrice, actualPrice);
+    }
+
+    @Test
+    void Should_ReturnStatistics() {
+        library.stream()
+                .mapToInt(Book::getPrice)
+                .sum();
+    }
 }

@@ -1,6 +1,7 @@
 import entities.Book;
 
-import com.sun.tools.javac.util.List;
+import java.util.List;
+
 
 public final class BookFixture {
 
@@ -30,7 +31,7 @@ public final class BookFixture {
     }
 
     public static Book getSilmarillon() {
-        return new Book("Lord of the Rings", "J. R. R Tolkien", 123, List.of("Fantasy"));
+        return new Book("Silmarillon", "J. R. R Tolkien", 125, List.of("Fantasy"));
     }
 
 }

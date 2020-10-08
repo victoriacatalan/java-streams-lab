@@ -1,6 +1,8 @@
 import entities.Book;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public final class BookFixture {
@@ -10,8 +12,24 @@ public final class BookFixture {
                 getGolden(),
                 getOCP(),
                 getInk(),
-                getLotr()
-                );
+                getLotr(),
+                getSilmarillon()
+        );
+    }
+
+    public static Map<String, List<Book>> mapByAuthor() {
+        return Map.of("Alphonso Dunn", List.of(getInk()),
+                "Philip Pullman", List.of(getGolden()),
+                "J. R. R. Tolkien", List.of(getLotr(), getSilmarillon()),
+                "Jeanne Boyarsky", List.of(getOCP()));
+    }
+
+    public static Map<String, List<Book>> mapByTag() {
+        return Map.of("YA", List.of(getGolden()),
+                "Fantasy", List.of(getGolden(), getLotr(), getSilmarillon()),
+                "Java", List.of(getOCP()),
+                "Study Guide", List.of(getOCP(), getInk()),
+                "Drawing", List.of(getInk()));
     }
 
     public static Book getGolden() {
@@ -27,11 +45,11 @@ public final class BookFixture {
     }
 
     public static Book getLotr() {
-        return new Book("Lord of the Rings", "J. R. R Tolkien", 123, List.of("Fantasy"));
+        return new Book("Lord of the Rings", "J. R. R. Tolkien", 123, List.of("Fantasy"));
     }
 
     public static Book getSilmarillon() {
-        return new Book("Silmarillon", "J. R. R Tolkien", 125, List.of("Fantasy"));
+        return new Book("Silmarillon", "J. R. R. Tolkien", 125, List.of("Fantasy"));
     }
 
 }

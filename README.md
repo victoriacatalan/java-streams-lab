@@ -1,2 +1,2 @@
 # java-streams-lab
-Vi blir bättre på streams!
+Ett par övningar för att få upp vanan med java streams

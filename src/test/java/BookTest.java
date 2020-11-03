@@ -1,11 +1,9 @@
-
 import entities.Book;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BookTest {
 
@@ -15,40 +13,6 @@ public class BookTest {
     void SetUp() {
         library = BookFixture.generateLibrary();
     }
-
-
-    @Test
-    void Should_ReturnUniqueTags() {
-        List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
-
-        //TODO: Replace for loop with stream
-        List<String> actual = new ArrayList<>();
-        for (Book book : library) {
-            for (String tag : book.getTags()) {
-                if (!actual.contains(tag)) {
-                    actual.add(tag);
-                }
-            }
-        }
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    void Should_ReturnPriceOfAllFantasy() {
-        int expected = 327;
-
-        //TODO: Replace for loop with stream
-        int actual = 0;
-        for (Book book : library) {
-            if (book.getTags().contains("Fantasy")) {
-                actual += book.getPrice();
-            }
-        }
-
-        Assertions.assertEquals(expected, actual);
-    }
-
 
     @Test
     void Should_ReturnAllBooksByTolkien() {
@@ -85,35 +49,23 @@ public class BookTest {
     }
 
     @Test
-    void Should_ReturnTwoMostExpensiveBooks() {
-        List<Book> expected = List.of(BookFixture.getOCP(), BookFixture.getInk());
-        int expectedPrice = 667;
+    void Should_ReturnPriceOfAllFantasy() {
+        int expected = 327;
 
-        //TODO: Replace with stream
-        List<Book> actual = expected;
-
-        int max = 0;
-        int secondMax = 0;
+        //TODO: Replace for loop with stream
+        int actual = 0;
         for (Book book : library) {
-            int value = book.getPrice();
-            if (value > max) {
-                int tmp = max;
-                max = value;
-                secondMax = tmp;
-            } else if (value > secondMax) {
-                secondMax = value;
+            if (book.getTags().contains("Fantasy")) {
+                actual += book.getPrice();
             }
         }
-        int actualPrice = max + secondMax;
 
         Assertions.assertEquals(expected, actual);
-        Assertions.assertEquals(expectedPrice, actualPrice);
     }
-
 
     @Test
     void Should_ReturnFirstStudyGuid() {
-        Book expected = BookFixture.getInk();
+        List<Book> expected = Arrays.asList(BookFixture.getInk(), BookFixture.getOCP());
 
         //TODO: Replace for loop with stream
         Book actual = library.get(0);
@@ -122,6 +74,23 @@ public class BookTest {
                 if (tag.equals("Study Guide")) {
                     actual = book;
                     break;
+                }
+            }
+        }
+
+        Assertions.assertTrue(expected.contains(actual));
+    }
+
+    @Test
+    void Should_ReturnUniqueTags() {
+        List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
+
+        //TODO: Replace for loop with stream
+        List<String> actual = new ArrayList<>();
+        for (Book book : library) {
+            for (String tag : book.getTags()) {
+                if (!actual.contains(tag)) {
+                    actual.add(tag);
                 }
             }
         }
@@ -149,6 +118,32 @@ public class BookTest {
     }
 
     @Test
+    void Should_ReturnTwoMostExpensiveBooks() {
+        List<Book> expected = List.of(BookFixture.getOCP(), BookFixture.getInk());
+        int expectedPrice = 667;
+
+        //TODO: Replace with stream
+        List<Book> actual = expected;
+
+        int max = 0;
+        int secondMax = 0;
+        for (Book book : library) {
+            int value = book.getPrice();
+            if (value > max) {
+                int tmp = max;
+                max = value;
+                secondMax = tmp;
+            } else if (value > secondMax) {
+                secondMax = value;
+            }
+        }
+        int actualPrice = max + secondMax;
+
+        Assertions.assertEquals(expected, actual);
+        Assertions.assertEquals(expectedPrice, actualPrice);
+    }
+
+    @Test
     void Should_GroupBooksByTags() {
         Map<String, List<Book>> expected = BookFixture.mapByTag();
 
@@ -168,5 +163,4 @@ public class BookTest {
 
         Assertions.assertEquals(expected, actual);
     }
-
 }

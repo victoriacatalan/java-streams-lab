@@ -1,11 +1,9 @@
-
 import entities.Book;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BookTest {
 
@@ -16,18 +14,30 @@ public class BookTest {
         library = BookFixture.generateLibrary();
     }
 
-
     @Test
-    void Should_ReturnUniqueTags() {
-        List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
+    void Should_ReturnAllBooksByTolkien() {
+        List<Book> expected = Arrays.asList(BookFixture.getLotr(), BookFixture.getSilmarillon());
 
         //TODO: Replace for loop with stream
-        List<String> actual = new ArrayList<>();
+        List<Book> actual = new ArrayList<>();
         for (Book book : library) {
-            for (String tag : book.getTags()) {
-                if (!actual.contains(tag)) {
-                    actual.add(tag);
-                }
+            if (book.getAuthor().contains("J. R. R. Tolkien")) {
+                actual.add(book);
+            }
+        }
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void Should_ReturnMostExpensiveBooks() {
+        Book expected = BookFixture.getOCP();
+
+        //TODO: Replace for loop with stream
+        Book actual = library.get(0);
+        for (Book book : library) {
+            if (actual.getPrice() < book.getPrice()) {
+                actual = book;
             }
         }
 
@@ -49,35 +59,54 @@ public class BookTest {
         Assertions.assertEquals(expected, actual);
     }
 
-
     @Test
-    void Should_ReturnAllBooksByTolkien() {
-        List<Book> expected = Arrays.asList(BookFixture.getLotr(), BookFixture.getSilmarillon());
-        int expectedPrice = 248;
-
-        //TODO: Replace for loop with stream
-        List<Book> actual = new ArrayList<>();
-        int actualPrice = 0;
-        for (Book book : library) {
-            if (book.getAuthor().contains("J. R. R. Tolkien")) {
-                actual.add(book);
-                actualPrice += book.getPrice();
-            }
-        }
-
-        Assertions.assertEquals(expected, actual);
-        Assertions.assertEquals(expectedPrice, actualPrice);
-    }
-
-    @Test
-    void Should_ReturnMostExpensiveBooks() {
-        Book expected = BookFixture.getOCP();
+    void Should_ReturnFirstStudyGuid() {
+        List<Book> expected = Arrays.asList(BookFixture.getInk(), BookFixture.getOCP());
 
         //TODO: Replace for loop with stream
         Book actual = library.get(0);
         for (Book book : library) {
-            if (actual.getPrice() < book.getPrice()) {
-                actual = book;
+            for (String tag : book.getTags()) {
+                if (tag.equals("Study Guide")) {
+                    actual = book;
+                    break;
+                }
+            }
+        }
+
+        Assertions.assertTrue(expected.contains(actual));
+    }
+
+    @Test
+    void Should_ReturnUniqueTags() {
+        List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
+
+        //TODO: Replace for loop with stream
+        List<String> actual = new ArrayList<>();
+        for (Book book : library) {
+            for (String tag : book.getTags()) {
+                if (!actual.contains(tag)) {
+                    actual.add(tag);
+                }
+            }
+        }
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void Should_GroupBooksByAuthor() {
+        Map<String, List<Book>> expected = BookFixture.mapByAuthor();
+
+        //TODO: Replace for loop with stream
+        Map<String, List<Book>> actual = new HashMap<>();
+        for (Book book : library) {
+            if (actual.containsKey(book.getAuthor())) {
+                actual.get(book.getAuthor()).add(book);
+            } else {
+                ArrayList<Book> books = new ArrayList<>();
+                books.add(book);
+                actual.put(book.getAuthor(), books);
             }
         }
 
@@ -110,44 +139,6 @@ public class BookTest {
         Assertions.assertEquals(expectedPrice, actualPrice);
     }
 
-
-    @Test
-    void Should_ReturnFirstStudyGuid() {
-        Book expected = BookFixture.getInk();
-
-        //TODO: Replace for loop with stream
-        Book actual = library.get(0);
-        for (Book book : library) {
-            for (String tag : book.getTags()) {
-                if (tag.equals("Study Guide")) {
-                    actual = book;
-                    break;
-                }
-            }
-        }
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    void Should_GroupBooksByAuthor() {
-        Map<String, List<Book>> expected = BookFixture.mapByAuthor();
-
-        //TODO: Replace for loop with stream
-        Map<String, List<Book>> actual = new HashMap<>();
-        for (Book book : library) {
-            if (actual.containsKey(book.getAuthor())) {
-                actual.get(book.getAuthor()).add(book);
-            } else {
-                ArrayList<Book> books = new ArrayList<>();
-                books.add(book);
-                actual.put(book.getAuthor(), books);
-            }
-        }
-
-        Assertions.assertEquals(expected, actual);
-    }
-
     @Test
     void Should_GroupBooksByTags() {
         Map<String, List<Book>> expected = BookFixture.mapByTag();
@@ -168,5 +159,4 @@ public class BookTest {
 
         Assertions.assertEquals(expected, actual);
     }
-
 }

@@ -17,20 +17,16 @@ public class BookTest {
     @Test
     void Should_ReturnAllBooksByTolkien() {
         List<Book> expected = Arrays.asList(BookFixture.getLotr(), BookFixture.getSilmarillon());
-        int expectedPrice = 248;
 
         //TODO: Replace for loop with stream
         List<Book> actual = new ArrayList<>();
-        int actualPrice = 0;
         for (Book book : library) {
             if (book.getAuthor().contains("J. R. R. Tolkien")) {
                 actual.add(book);
-                actualPrice += book.getPrice();
             }
         }
 
         Assertions.assertEquals(expected, actual);
-        Assertions.assertEquals(expectedPrice, actualPrice);
     }
 
     @Test

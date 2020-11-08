@@ -92,6 +92,32 @@ public class BookTest {
     }
 
     @Test
+    void should_checkIfAllBooksWithCertainTagIsWrittenByDunn() {
+        boolean isStudyGuideWrittenByDunn = areAllBooksWithTagWrittenByDunn("Study Guide");
+        Assertions.assertFalse(isStudyGuideWrittenByDunn);
+
+        boolean isDrawingWrittenByDunn = areAllBooksWithTagWrittenByDunn("Drawing");
+        Assertions.assertTrue(isDrawingWrittenByDunn);
+
+        boolean isUnknownWrittenByDunn = areAllBooksWithTagWrittenByDunn("Unknown");
+        Assertions.assertTrue(isUnknownWrittenByDunn);
+    }
+
+    private boolean areAllBooksWithTagWrittenByDunn(String tag) {
+        //TODO: Replace for loop with stream
+        for (Book book : library) {
+            if (!book.getTags().contains(tag)) {
+                continue;
+            }
+            if (!"Alphonso Dunn".equals(book.getAuthor())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Test
     void Should_ReturnUniqueTags() {
         List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
 

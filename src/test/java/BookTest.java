@@ -78,6 +78,20 @@ public class BookTest {
     }
 
     @Test
+    void should_CheckIfTolkienHasWrittenAnyBook() {
+        //TODO: Replace for loop with stream
+        boolean found = false;
+        for (Book book : library) {
+            if (book.getAuthor().equals("J. R. R. Tolkien")) {
+                found = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found);
+    }
+
+    @Test
     void Should_ReturnUniqueTags() {
         List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
 

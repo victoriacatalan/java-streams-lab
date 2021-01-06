@@ -1,9 +1,7 @@
 import entities.Book;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public final class BookFixture {
 
@@ -33,23 +31,23 @@ public final class BookFixture {
     }
 
     public static Book getGolden() {
-        return new Book("The golden compass", "Philip Pullman", 79, List.of("YA", "Fantasy"));
+        return new Book("The golden compass", "Philip Pullman", 79, List.of("YA", "Fantasy"), 3.7);
     }
 
     public static Book getOCP() {
-        return new Book("OCP", "Jeanne Boyarsky", 432, List.of("Java", "Study Guide"));
+        return new Book("OCP", "Jeanne Boyarsky", 432, List.of("Java", "Study Guide"), 3.2);
     }
 
     public static Book getInk() {
-        return new Book("Pen and Ink drawing", "Alphonso Dunn", 235, List.of("Drawing", "Study Guide"));
+        return new Book("Pen and Ink drawing", "Alphonso Dunn", 235, List.of("Drawing", "Study Guide"), 4.3);
     }
 
     public static Book getLotr() {
-        return new Book("Lord of the Rings", "J. R. R. Tolkien", 123, List.of("Fantasy"));
+        return new Book("Lord of the Rings", "J. R. R. Tolkien", 123, List.of("Fantasy"), 4.9);
     }
 
     public static Book getSilmarillon() {
-        return new Book("Silmarillon", "J. R. R. Tolkien", 125, List.of("Fantasy"));
+        return new Book("Silmarillon", "J. R. R. Tolkien", 125, List.of("Fantasy"), 2.9);
     }
 
 }

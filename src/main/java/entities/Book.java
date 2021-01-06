@@ -2,7 +2,6 @@ package entities;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Book {
 
@@ -10,12 +9,14 @@ public class Book {
     private String author;
     private int price;
     private List<String> tags;
+    private double rating;
 
-    public Book(String title, String author, int price, List<String> tags) {
+    public Book(String title, String author, int price, List<String> tags, double rating) {
         this.title = title;
         this.author = author;
         this.price = price;
         this.tags = tags;
+        this.rating = rating;
     }
 
     public String getTitle() {
@@ -50,20 +51,29 @@ public class Book {
         this.tags = tags;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
         return price == book.price &&
-                title.equals(book.title) &&
-                author.equals(book.author) &&
-                tags.equals(book.tags);
+                Double.compare(book.rating, rating) == 0 &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(tags, book.tags);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, author, price, tags);
+        return Objects.hash(title, author, price, tags, rating);
     }
 
     @Override
@@ -73,6 +83,7 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", price=" + price +
                 ", tags=" + tags +
+                ", rating=" + rating +
                 '}';
     }
 }

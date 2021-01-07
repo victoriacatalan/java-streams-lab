@@ -2,6 +2,23 @@ package entities;
 
 import java.util.*;
 
+/**
+ * Block 1
+ * {@link Library#getAllBooksByAuthor(String)}
+ * {@link Library#getDistinctTags()}
+ * {@link Library#getAnyBookByTag(String)}
+ * {@link Library#getTopRatedBooks()}
+ *
+ * Block 2
+ * {@link Library#getMostExpensiveBook()}
+ * {@link Library#getTotalPriceByTag(String)}
+ * {@link Library#hasBooksInLibrary(String)}
+ * {@link Library#areAllBooksInTagWrittenByAuthor(String, String)}
+ *
+ * Block 3
+ * {@link Library#groupBooksByAuthor()}
+ * {@link Library#groupBooksByTags()}
+ */
 public class Library {
     private final List<Book> books;
 
@@ -16,6 +33,56 @@ public class Library {
                 result.add(book);
             }
         }
+        return result;
+    }
+
+    public List<String> getDistinctTags() {
+        List<String> result = new ArrayList<>();
+        for (Book book : books) {
+            for (String tag : book.getTags()) {
+                if (!result.contains(tag)) {
+                    result.add(tag);
+                }
+            }
+        }
+        return result;
+    }
+
+    public Optional<Book> getAnyBookByTag(String tag) {
+        Book result = null;
+        for (Book book : books) {
+            for (String bookTag : book.getTags()) {
+                if (bookTag.equals(tag)) {
+                    result = book;
+                    break;
+                }
+            }
+        }
+        return Optional.ofNullable(result);
+    }
+
+    public List<Book> getTopRatedBooks() {
+        List<Book> result = new ArrayList<>();
+        double highest = 0;
+        int highestIndex = -1;
+        double secondHighest = 0;
+        int secondHighestIndex = -1;
+        for (int i = 0; i < books.size(); i++) {
+            double value = books.get(i).getRating();
+            if (value > highest) {
+                double tmp = highest;
+                int tmpIndex = highestIndex;
+                highest = value;
+                highestIndex = i;
+                secondHighest = tmp;
+                secondHighestIndex = tmpIndex;
+            } else if (value > secondHighest) {
+                secondHighest = value;
+                secondHighestIndex = i;
+            }
+        }
+        result.add(books.get(highestIndex));
+        result.add(books.get(secondHighestIndex));
         return result;
     }
 
@@ -37,19 +104,6 @@ public class Library {
             }
         }
         return result;
-    }
-
-    public Optional<Book> getAnyBookByTag(String tag) {
-        Book result = null;
-        for (Book book : books) {
-            for (String bookTag : book.getTags()) {
-                if (bookTag.equals(tag)) {
-                    result = book;
-                    break;
-                }
-            }
-        }
-        return Optional.ofNullable(result);
     }
 
     public boolean hasBooksInLibrary(String author) {
@@ -78,18 +132,6 @@ public class Library {
         return true;
     }
 
-    public List<String> getAllUniqueTags() {
-        List<String> result = new ArrayList<>();
-        for (Book book : books) {
-            for (String tag : book.getTags()) {
-                if (!result.contains(tag)) {
-                    result.add(tag);
-                }
-            }
-        }
-        return result;
-    }
-
     public Map<String, List<Book>> groupBooksByAuthor() {
         Map<String, List<Book>> result = new HashMap<>();
         for (Book book : books) {
@@ -101,31 +143,6 @@ public class Library {
                 result.put(book.getAuthor(), books);
             }
         }
-        return result;
-    }
-
-    public List<Book> getTopRatedBooks() {
-        List<Book> result = new ArrayList<>();
-        double highest = 0;
-        int highestIndex = -1;
-        double secondHighest = 0;
-        int secondHighestIndex = -1;
-        for (int i = 0; i < books.size(); i++) {
-            double value = books.get(i).getRating();
-            if (value > highest) {
-                double tmp = highest;
-                int tmpIndex = highestIndex;
-                highest = value;
-                highestIndex = i;
-                secondHighest = tmp;
-                secondHighestIndex = tmpIndex;
-            } else if (value > secondHighest) {
-                secondHighest = value;
-                secondHighestIndex = i;
-            }
-        }
-        result.add(books.get(highestIndex));
-        result.add(books.get(secondHighestIndex));
         return result;
     }
 

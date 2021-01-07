@@ -3,6 +3,23 @@ package entities;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Block 1
+ * {@link Library#getAllBooksByAuthor(String)}
+ * {@link Library#getDistinctTags()}
+ * {@link Library#getAnyBookByTag(String)}
+ * {@link Library#getTopRatedBooks()}
+ *
+ * Block 2
+ * {@link Library#getMostExpensiveBook()}
+ * {@link Library#getTotalPriceByTag(String)}
+ * {@link Library#hasBooksInLibrary(String)}
+ * {@link Library#areAllBooksInTagWrittenByAuthor(String, String)}
+ *
+ * Block 3
+ * {@link Library#groupBooksByAuthor()}
+ * {@link Library#groupBooksByTags()}
+ */
 public class Library {
     private final List<Book> books;
 
@@ -13,6 +30,26 @@ public class Library {
     public List<Book> getAllBooksByAuthor(String author) {
         return books.stream()
                 .filter(book -> book.getAuthor().contains(author))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getDistinctTags() {
+        return books.stream()
+                .flatMap(book -> book.getTags().stream())
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Book> getAnyBookByTag(String tag) {
+        return books.stream()
+                .filter(book -> book.getTags().contains(tag))
+                .findAny();
+    }
+
+    public List<Book> getTopRatedBooks() {
+        return books.stream()
+                .sorted(Comparator.comparing(Book::getRating).reversed())
+                .limit(2)
                 .collect(Collectors.toList());
     }
 
@@ -29,12 +66,6 @@ public class Library {
                 .sum();
     }
 
-    public Optional<Book> getAnyBookByTag(String tag) {
-        return books.stream()
-                .filter(book -> book.getTags().contains(tag))
-                .findAny();
-    }
-
     public boolean hasBooksInLibrary(String author) {
         return books.stream().anyMatch(book -> book.getAuthor().equals(author));
     }
@@ -45,23 +76,9 @@ public class Library {
                 .allMatch(book -> author.equals(book.getAuthor()));
     }
 
-    public List<String> getAllUniqueTags() {
-        return books.stream()
-                .flatMap(book -> book.getTags().stream())
-                .distinct()
-                .collect(Collectors.toList());
-    }
-
     public Map<String, List<Book>> groupBooksByAuthor() {
         return books.stream()
                 .collect(Collectors.groupingBy(Book::getAuthor));
-    }
-
-    public List<Book> getTopRatedBooks() {
-        return books.stream()
-                .sorted(Comparator.comparing(Book::getRating).reversed())
-                .limit(2)
-                .collect(Collectors.toList());
     }
 
     public Map<String, List<Book>> groupBooksByTags() {

@@ -72,7 +72,7 @@ public class LibraryTest {
     @Test
     void Should_ReturnAllUniqueTags_When_GetAllUniqueTags() {
         List<String> expected = Arrays.asList("YA", "Fantasy", "Java", "Study Guide", "Drawing");
-        List<String> actual = library.getAllUniqueTags();
+        List<String> actual = library.getDistinctTags();
         assertEquals(expected, actual);
     }
 

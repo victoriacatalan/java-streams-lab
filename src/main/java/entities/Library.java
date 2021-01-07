@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Block 1
  * {@link Library#getAllBooksByAuthor(String)}
- * {@link Library#getAllUniqueTags()}
+ * {@link Library#getDistinctTags()}
  * {@link Library#getAnyBookByTag(String)}
  * {@link Library#getTopRatedBooks()}
  *
@@ -36,7 +36,7 @@ public class Library {
         return result;
     }
 
-    public List<String> getAllUniqueTags() {
+    public List<String> getDistinctTags() {
         List<String> result = new ArrayList<>();
         for (Book book : books) {
             for (String tag : book.getTags()) {

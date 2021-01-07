@@ -65,8 +65,18 @@ public class Library {
     }
 
     public Map<String, List<Book>> groupBooksByTags() {
+        Map<String, List<Book>> map = new HashMap<>();
+        for (Book book : books) {
+            for (String tag : book.getTags()) {
+                map.computeIfAbsent(tag, k -> new ArrayList<>()).add(book);
+            }
+        }
+        return map;
+
+        /*  An alternative stream solution
         return books.stream()
                 .flatMap(book -> book.getTags().stream().map(tag -> Map.entry(tag, book)))
                 .collect(Collectors.groupingBy(Map.Entry::getKey, Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
+        */
     }
 }

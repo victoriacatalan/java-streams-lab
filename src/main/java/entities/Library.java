@@ -32,7 +32,7 @@ public class Library {
     public Optional<Book> getAnyBookByTag(String tag) {
         return books.stream()
                 .filter(book -> book.getTags().contains(tag))
-                .findFirst();
+                .findAny();
     }
 
     public boolean hasBooksInLibrary(String author) {
